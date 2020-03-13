@@ -1,0 +1,19 @@
+<div id="popoutBox" #box [ngStyle]="positionOption">
+  <div id="header" #header [ngStyle]="titleStyle">
+    <span id="title">
+      <ng-content select="zTitle"></ng-content>
+    </span>
+    <span id="close" (click)="close.emit()">
+      <i nz-icon nzType="close" nzTheme="outline"></i>
+    </span>
+    <span id="fold" (click)="isFold = !isFold" *ngIf="foldable">
+      <i nz-icon nzType="shrink" nzTheme="outline" *ngIf="!isFold"></i>
+      <i nz-icon nzType="arrows-alt" nzTheme="outline" *ngIf="isFold"></i>
+    </span>
+  </div>
+  <div id="body" [ngClass]="{ fold: isFold, unfold: !isFold }">
+    <ng-content select="zContent"></ng-content>
+  </div>
+</div>
+
+<!-- <ng-content #name></ng-content> -->
