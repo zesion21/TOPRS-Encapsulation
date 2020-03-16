@@ -1,0 +1,17 @@
+<div id="map" #map [ngStyle]="{ height: '100vh' }"></div>
+
+<div style="position: absolute;left: 0;top: 30px;" id="toolBar">
+  <button (click)="full()">
+    quantu
+  </button>
+  <button (click)="this.operation.zoomPrev()">prev</button>
+  <button (click)="this.operation.zoomNext()">next</button>
+
+  <button (click)="this.operation.zoomIn()">zoomIn</button>
+  <button (click)="this.operation.zoomOut()">zoomOut</button>
+
+  <button (click)="this.operation.default()">Init</button>
+
+  <button (click)="draw()">draw</button>
+  <button (click)="clear()">clear</button>
+</div>

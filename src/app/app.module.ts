@@ -13,9 +13,10 @@ import { NZ_I18N, zh_CN } from "ng-zorro-antd";
 import { registerLocaleData } from "@angular/common";
 import zh from "@angular/common/locales/zh";
 import { FormsModule } from "@angular/forms";
+import { MapComponent } from './map/map.component';
 registerLocaleData(zh);
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MapComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
