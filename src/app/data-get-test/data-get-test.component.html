@@ -1,0 +1,41 @@
+<div [style.height.px]="450" style="overflow: auto;width: 100%;">
+  <span>四维数据</span>
+  <table>
+    <tr>
+      <td>影像 ID 号</td>
+      <td>影像成像时间</td>
+      <td>卫星 ID</td>
+      <td>影像分辨率</td>
+      <td>云盖量</td>
+    </tr>
+
+    <tr *ngFor="let item of DataCenter">
+      <td>{{ item.data_id }}</td>
+      <td>{{ item.image_time }}</td>
+      <td>{{ item.sat_id }}</td>
+      <td>{{ item.resolution }}</td>
+      <td>{{ item.cloud_percent }}%</td>
+    </tr>
+  </table>
+</div>
+
+<div [style.height.px]="450" style="overflow: auto;width: 100%;">
+  <span>世景数据</span>
+  <table>
+    <tr>
+      <td>影像 ID 号</td>
+      <td>影像成像时间</td>
+      <td>卫星 ID</td>
+      <td>影像分辨率</td>
+      <td>云盖量</td>
+    </tr>
+
+    <tr *ngFor="let item of shijing">
+      <td>{{ item.entityId }}</td>
+      <td>{{ item.acquireTime }}</td>
+      <td>{{ item.sateId }}</td>
+      <td>{{ item.resolution }}</td>
+      <td>{{ item.cloudCover }}%</td>
+    </tr>
+  </table>
+</div>

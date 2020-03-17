@@ -14,9 +14,10 @@ import { registerLocaleData } from "@angular/common";
 import zh from "@angular/common/locales/zh";
 import { FormsModule } from "@angular/forms";
 import { MapComponent } from './map/map.component';
+import { DataGetTestComponent } from './data-get-test/data-get-test.component';
 registerLocaleData(zh);
 @NgModule({
-  declarations: [AppComponent, MapComponent],
+  declarations: [AppComponent, MapComponent, DataGetTestComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

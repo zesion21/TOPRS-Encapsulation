@@ -89,13 +89,13 @@ export class MapOperationService {
     }
     if (!multi) drawLayer.clear();
     this.draw.activate(this.esri.Draw[geometryType]);
-    return new Observable(obserber => {
+    return new Observable<any>(obserber => {
       const drawEvent = this.draw.on("draw-complete", event => {
         drawEvent.remove();
         this.default();
         drawLayer.add(
           new this.esri.Graphic(
-            event.geometry,
+            event.geographicGeometry,
             this.esri.heightSimpleFillSymbol
           )
         );
@@ -111,4 +111,65 @@ export class MapOperationService {
       layer.clear();
     }
   }
+
+  InitTDTBasemap() {
+    const subDomains = ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"];
+    const layer1 = new this.esri.BasemapLayer({
+      type: "WebTiledLayer",
+      templateUrl:
+        "http://{subDomain}.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&tk=ab1846502fcc2340e75c1d9ceb67c58b",
+      subDomains: subDomains
+    });
+    const layer2 = new this.esri.BasemapLayer({
+      type: "WebTiledLayer",
+      templateUrl:
+        "http://{subDomain}.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&tk=ab1846502fcc2340e75c1d9ceb67c58b",
+      subDomains: subDomains
+    });
+    const layer3 = new this.esri.BasemapLayer({
+      type: "WebTiledLayer",
+      templateUrl:
+        "http://{subDomain}.tianditu.gov.cn/ibo_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ibo&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&tk=ab1846502fcc2340e75c1d9ceb67c58b",
+      subDomains: subDomains
+    });
+
+    const TDT = new this.esri.Basemap({
+      layers: [layer1, layer2, layer3]
+    });
+
+    return TDT;
+  }
+}
+
+export class coordinateChange {
+  private DS: string;
+  constructor(dataSources) {
+    this.DS = dataSources;
+  }
+
+  public send(data: string) {
+    // let lower = data.toLowerCase();
+    // if (lower.includes("polygon")) lower = `${lower.replace("polygon", "")}`;
+    // console.log(lower);
+    if (this.DS == "shijing") {
+      return this.shijingSend(data);
+    } else if (this.DS == "siwei") {
+      return this.siweiSend(data);
+    }
+  }
+  public receive(data: any) {
+    if (this.DS == "shijing") {
+      return this.shijingReceive(data);
+    } else if (this.DS == "siwei") {
+      return this.siweiReceive(data);
+    }
+  }
+
+  private shijingSend(data) {}
+  private shijingReceive(data) {}
+
+  private siweiSend(data) {
+    console.log(data);
+  }
+  private siweiReceive(data) {}
 }
