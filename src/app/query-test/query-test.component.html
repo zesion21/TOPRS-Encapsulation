@@ -1,0 +1,54 @@
+<div class="BB">
+  <button (click)="isShow = !isShow">show</button>
+
+  <paging-query
+    #query
+    [(condition)]="condition"
+    [queryUrl]="'http://www.example.com/API/getArticleListBycondition'"
+    (result)="data = $event; isShow = true"
+    [deleteUrl]="'http://www.example.com/API/delArticle/'"
+  >
+    <div class="pageQuery">
+      <div id="condition">
+        <input type="text" [(ngModel)]="condition.title" />
+        <input type="date" [(ngModel)]="condition.date" />
+      </div>
+      <div id="queryButton">
+        <button (click)="query.reset()">重置</button>
+        <button (click)="query.query()">query</button>
+      </div>
+      <div id="result">
+        <ul>
+          <li *ngFor="let item of data['data']">
+            {{ item.title }} --
+            <span (click)="query.itemDel(item.id)">删除</span>
+          </li>
+        </ul>
+        <nz-pagination
+          [nzPageIndex]="condition.pageNum"
+          [nzTotal]="data.count"
+          [nzPageSize]="condition.pageSize"
+          nzShowSizeChanger
+          (nzPageIndexChange)="query.pageIndexChange($event, 'pageNum')"
+          (nzPageSizeChange)="query.pageSizeChange($event, 'pageSize')"
+        ></nz-pagination>
+      </div>
+
+      <popout
+        *ngIf="isShow"
+        (close)="isShow = false"
+        [left]="200"
+        [top]="80"
+        [foldable]="true"
+        [titleSty]="{ background: '#1980ff', color: '#fff' }"
+      >
+        <zTitle>
+          你好
+        </zTitle>
+        <zContent>
+          <div [ngStyle]="{ height: '450px', width: '300px' }"></div>
+        </zContent>
+      </popout>
+    </div>
+  </paging-query>
+</div>

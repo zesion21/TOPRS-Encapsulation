@@ -169,7 +169,7 @@ export class coordinateChange {
   private shijingReceive(data) {}
 
   private siweiSend(data) {
-    console.log(data);
+    return [1, 2, 3, 5, 6, 6, 8];
   }
   private siweiReceive(data) {}
 }

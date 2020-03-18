@@ -72,7 +72,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
   draw() {
     this.operation
-      .drawGraphic("RECTANGLE", this.map, true)
+      .drawGraphic("RECTANGLE", this.map, false)
       .subscribe(graphicArr => {
         new coordinateChange("siwei").send(graphicArr[0].geometry.rings);
         console.log(graphicArr);
