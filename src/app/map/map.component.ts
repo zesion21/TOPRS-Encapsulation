@@ -21,28 +21,27 @@ export class MapComponent implements OnInit, AfterViewInit {
     // const str =
     //   "POLYGON((113.996455 36.896927,114.132031 36.874394,114.099475 36.750692,113.964117 36.773211,113.996455 36.896927))";
   }
-  map: any;
   navigation;
   async ngAfterViewInit() {
     await this.esri.initMap();
 
-    this.map = new this.esri.Map("map", {
-      center: [118, 38],
+    this.esri.map = new this.esri.Map("map", {
+      // center: [93, 38],
       slider: false,
-      zoom: 4,
+      // zoom: 5,
       maxZoom: 17,
-      minZoom: 3
+      minZoom: 1
     });
-    this.map.SpatialReference = new this.esri.SpatialReference({
-      wkid: 4326
+    this.esri.map.SpatialReference = new this.esri.SpatialReference({
+      wkid: 3857
     });
     new this.esri.BasemapGallery({
       basemaps: [this.operation.InitTDTBasemap()],
       showArcGISBasemaps: false,
-      map: this.map
+      map: this.esri.map
     });
 
-    this.operation.InitToolBar(this.map);
+    this.operation.InitToolBar(this.esri.map);
   }
   addGraphic() {
     var polygon = new this.esri.Polygon({
@@ -57,29 +56,32 @@ export class MapComponent implements OnInit, AfterViewInit {
       ],
       spatialReference: { wkid: 4326 }
     });
-    this.map.graphics.clear();
-    this.map.graphics.add(
+    this.esri.map.graphics.clear();
+    this.esri.map.graphics.add(
       new this.esri.Graphic(polygon, this.esri.heightSimpleFillSymbol)
     );
-    this.operation.location(this.map, {
+    this.operation.location(this.esri.map, {
       center: [106.413574, 38.376115],
-      zoom: 8
+      zoom: 2
     });
   }
   full() {
     let op: extentOption = { center: [112, 38], zoom: 5 };
-    this.operation.location(this.map, op);
+    this.operation.location(this.esri.map, op);
   }
   draw() {
     this.operation
-      .drawGraphic("RECTANGLE", this.map, false)
+      .drawGraphic({
+        geometryType: "RECTANGLE",
+        map: this.esri.map,
+        symbol: this.operation.createSymbol([255, 0, 0], 2, [0, 0, 0, 0])
+      })
       .subscribe(graphicArr => {
-        new coordinateChange("siwei").send(graphicArr[0].geometry.rings);
         console.log(graphicArr);
       });
   }
 
   clear() {
-    this.operation.clearDraw(this.map);
+    this.operation.clearDraw(this.esri.map);
   }
 }

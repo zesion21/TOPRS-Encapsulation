@@ -10,10 +10,6 @@ const routes: Routes = [
     component: MapComponent
   },
   {
-    path: "test",
-    component: DataGetTestComponent
-  },
-  {
     path: "",
     redirectTo: "map",
     pathMatch: "full"
