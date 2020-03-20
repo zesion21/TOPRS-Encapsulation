@@ -93,26 +93,57 @@ export class MapOperationService {
     multi?: boolean;
     layerId?: string;
   }) {
-    const layerId = drawOption.layerId || "drawLayer";
-    const symbol = drawOption.symbol || this.esri.heightSimpleFillSymbol;
-    const drawLayer =
-      drawOption.map.getLayer(layerId) ||
-      new this.esri.GraphicsLayer({ id: layerId });
-    if (!drawOption.map.getLayer(layerId)) {
-      drawOption.map.addLayer(drawLayer);
-    }
-    if (!drawOption.multi) drawLayer.clear();
     this.navigation.deactivate();
     this.draw.activate(this.esri.Draw[drawOption.geometryType]);
+    const layerId = drawOption.layerId || "drawLayer";
+    if (!drawOption.multi) this.clearDraw(drawOption.map, layerId);
     return new Observable<any>(obserber => {
       const drawEvent = this.draw.on("draw-complete", event => {
         drawEvent.remove();
         this.default();
         console.log(event);
-        drawLayer.add(new this.esri.Graphic(event.geographicGeometry, symbol));
-        obserber.next(drawLayer.graphics);
+        // drawLayer.add(new this.esri.Graphic(event.geographicGeometry, symbol));
+        const graphics = this.addGraphicsToLayer(drawOption.map, {
+          geometrys: [event.geographicGeometry],
+          symbol: drawOption.symbol || this.esri.heightSimpleFillSymbol,
+          layerId: layerId,
+          clearBefore: false
+        });
+        obserber.next(graphics);
       });
     });
+  }
+  /**
+   * @description 添加图形到图层
+   * @param map  地图实例
+   * @param option.geometrys []:geometry 几何图形
+   * @param option.symbol  图形的Symbol
+   * @param option.layerId 图层ID （可选） 默认为 地图的graphics图层
+   * @param option.clearBefore 是否清除该图层原来的图形 （可选） 默认为不清除
+   */
+  addGraphicsToLayer(
+    map,
+    option: {
+      geometrys: Array<any>;
+      symbol: any;
+      layerId?: string;
+      clearBefore?: boolean;
+    }
+  ) {
+    const symbol = option.symbol || this.esri.heightSimpleFillSymbol;
+    let drawLayer: any;
+    if (option.layerId) {
+      const addLayer = map.getLayer(option.layerId);
+      drawLayer =
+        addLayer || new this.esri.GraphicsLayer({ id: option.layerId });
+      if (!addLayer) map.addLayer(drawLayer);
+    } else {
+      drawLayer = map.graphics;
+    }
+    if (option.clearBefore) drawLayer.clear();
+    for (let item of option.geometrys)
+      drawLayer.add(new this.esri.Graphic(item, symbol));
+    return drawLayer.graphics;
   }
 
   /**@description 清除绘制的涂层的全部图形  @param map 地图实例 @param  layerId 清除的图层ID（可选，默认为"drawLayer"） */
@@ -188,7 +219,7 @@ export class MapOperationService {
   }
 
   /**
-   * @description 添加四维的网片涂层
+   * @description 添加四维的瓦片图层
    */
   addWebTiledLayer(map, imageid, versionid) {
     addImgGraphic.addWebTiledLayer(

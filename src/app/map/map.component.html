@@ -1,4 +1,8 @@
-<div id="map" #map [ngStyle]="{ height: '100vh' }"></div>
+<div
+  id="map"
+  #map
+  [ngStyle]="{ height: '100vh', width: 'calc(100vw - 415px)' }"
+></div>
 
 <div style="position: absolute;left: 0;top: 30px;" id="toolBar">
   <button (click)="full()">

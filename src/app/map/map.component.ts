@@ -32,15 +32,12 @@ export class MapComponent implements OnInit, AfterViewInit {
       maxZoom: 17,
       minZoom: 1
     });
-    this.esri.map.SpatialReference = new this.esri.SpatialReference({
-      wkid: 3857
-    });
     new this.esri.BasemapGallery({
       basemaps: [this.operation.InitTDTBasemap()],
       showArcGISBasemaps: false,
       map: this.esri.map
     });
-
+    this.operation.location(this.esri.map, { center: [93, 5], zoom: 1 });
     this.operation.InitToolBar(this.esri.map);
   }
   addGraphic() {
@@ -56,13 +53,20 @@ export class MapComponent implements OnInit, AfterViewInit {
       ],
       spatialReference: { wkid: 4326 }
     });
-    this.esri.map.graphics.clear();
-    this.esri.map.graphics.add(
-      new this.esri.Graphic(polygon, this.esri.heightSimpleFillSymbol)
-    );
+
+    this.operation.addGraphicsToLayer(this.esri.map, {
+      geometrys: [polygon],
+      symbol: this.operation.createSymbol([255, 0, 255], 2, [
+        255,
+        255,
+        0,
+        0.25
+      ]),
+      clearBefore: true
+    });
     this.operation.location(this.esri.map, {
-      center: [106.413574, 38.376115],
-      zoom: 2
+      extent: polygon.getExtent(),
+      expand: 2
     });
   }
   full() {
@@ -83,5 +87,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   clear() {
     this.operation.clearDraw(this.esri.map);
+    this.esri.map.graphics.clear();
   }
 }
