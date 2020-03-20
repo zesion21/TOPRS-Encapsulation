@@ -1,3 +1,22 @@
+<div id="condition">
+  <h3>查询条件</h3>
+  <div>云量：<nz-slider [(ngModel)]="condition.cloud"></nz-slider></div>
+  <div>分辨率：<nz-slider [(ngModel)]="condition.resolution"></nz-slider></div>
+
+  <div>
+    时相范围：<nz-range-picker
+      [nzShowTime]="{ nzFormat: 'HH:mm' }"
+      nzFormat="yyyy-MM-dd HH:mm"
+      [nzPlaceHolder]="['Start Time', 'End Time']"
+      [(ngModel)]="condition.time"
+    >
+    </nz-range-picker>
+  </div>
+  <div>
+    <button (click)="search()">检索</button>
+  </div>
+</div>
+
 <div [style.height.px]="450" style="overflow: auto;width: 100%;">
   <span (click)="this.dataShown = 'siwei'">四维数据</span>
   <span (click)="this.dataShown = 'shijing'">世景数据</span>

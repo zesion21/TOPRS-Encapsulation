@@ -221,7 +221,7 @@ export class MapOperationService {
   /**
    * @description 添加四维的瓦片图层
    */
-  addWebTiledLayer(map, imageid, versionid) {
+  addSiweiWebTiledLayer(map, imageid, versionid) {
     addImgGraphic.addWebTiledLayer(
       map,
       this.esri.WebTiledLayer,

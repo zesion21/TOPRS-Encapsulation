@@ -25,3 +25,47 @@
 <div id="dataGet">
   <app-data-get-test></app-data-get-test>
 </div>
+
+<div id="districtLocation">
+  行政区定位 <br />
+  省级行政区:
+  <select
+    name=""
+    id=""
+    [(ngModel)]="level0Selected"
+    (ngModelChange)="
+      this.getAdministrative(0, $event, 'level1');
+      this.level2 = this.level1 = []
+    "
+  >
+    <option [value]="item.cityCode" *ngFor="let item of level0">{{
+      item.name
+    }}</option>
+  </select>
+  <br />
+  市级行政区:
+  <select
+    name=""
+    id=""
+    [(ngModel)]="level1Selected"
+    (ngModelChange)="
+      this.getAdministrative(0, $event, 'level2'); this.level2 = []
+    "
+  >
+    <option [value]="item.cityCode" *ngFor="let item of level1">{{
+      item.name
+    }}</option>
+  </select>
+  <br />
+  县级行政区:
+  <select
+    name=""
+    id=""
+    [(ngModel)]="level2Selected"
+    (ngModelChange)="this.getAdministrative(0, $event, null)"
+  >
+    <option [value]="item.cityCode" *ngFor="let item of level2">{{
+      item.name
+    }}</option>
+  </select>
+</div>

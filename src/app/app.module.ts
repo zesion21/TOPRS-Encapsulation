@@ -13,16 +13,25 @@ import { NZ_I18N, zh_CN } from "ng-zorro-antd";
 import { registerLocaleData } from "@angular/common";
 import zh from "@angular/common/locales/zh";
 import { FormsModule } from "@angular/forms";
-import { MapComponent } from './map/map.component';
-import { DataGetTestComponent } from './data-get-test/data-get-test.component';
-import { QueryTestComponent } from './query-test/query-test.component';
+import { MapComponent } from "./map/map.component";
+import { DataGetTestComponent } from "./data-get-test/data-get-test.component";
+import { QueryTestComponent } from "./query-test/query-test.component";
+
+import { NzDatePickerModule, NzSliderModule } from "ng-zorro-antd";
 registerLocaleData(zh);
 @NgModule({
-  declarations: [AppComponent, MapComponent, DataGetTestComponent, QueryTestComponent],
+  declarations: [
+    AppComponent,
+    MapComponent,
+    DataGetTestComponent,
+    QueryTestComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonComponentModule,
+    NzDatePickerModule,
+    NzSliderModule,
     FormsModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],

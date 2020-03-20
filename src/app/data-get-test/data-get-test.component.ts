@@ -60,6 +60,7 @@ export class DataGetTestComponent implements OnInit {
   }
 
   shijing = [];
+
   getShijingData() {
     this.http
       .get("http://api.spaceview.com/wss/search", {
@@ -75,7 +76,7 @@ export class DataGetTestComponent implements OnInit {
           satviewangle: "-10000,10",
           resolution: "0,60",
           time: "2019-03-17 00:00:00,2020-03-17 23:59:59",
-          category: "SV1-01",
+          category: "all",
           output: "json",
           datatype: "attr",
           geometry:
@@ -107,7 +108,7 @@ export class DataGetTestComponent implements OnInit {
   }
 
   addWebTiledLayer(imageid, versionid) {
-    this.operation.addWebTiledLayer(this.esri.map, imageid, versionid);
+    this.operation.addSiweiWebTiledLayer(this.esri.map, imageid, versionid);
   }
   async addImg(id, oid) {
     const res = await new Promise(resolve => {
@@ -192,5 +193,17 @@ export class DataGetTestComponent implements OnInit {
 
     mil.addImage(mi);
     this.esri.map.addLayer(mil);
+  }
+
+  condition = {
+    time: [
+      new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30),
+      new Date()
+    ],
+    cloud: 10,
+    resolution: 3
+  };
+  search() {
+    console.log(this.condition);
   }
 }
