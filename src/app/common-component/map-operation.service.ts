@@ -101,8 +101,6 @@ export class MapOperationService {
       const drawEvent = this.draw.on("draw-complete", event => {
         drawEvent.remove();
         this.default();
-        console.log(event);
-        // drawLayer.add(new this.esri.Graphic(event.geographicGeometry, symbol));
         const graphics = this.addGraphicsToLayer(drawOption.map, {
           geometrys: [event.geographicGeometry],
           symbol: drawOption.symbol || this.esri.heightSimpleFillSymbol,
@@ -256,14 +254,11 @@ export class coordinateChange {
     this.DS = dataSources;
   }
 
-  public send(data: string) {
-    // let lower = data.toLowerCase();
-    // if (lower.includes("polygon")) lower = `${lower.replace("polygon", "")}`;
-    // console.log(lower);
+  public send(data: string): string {
     if (this.DS == "shijing") {
       return this.shijingSend(data);
     } else if (this.DS == "siwei") {
-      return this.siweiSend(data);
+      return this.siweiSend(data) as any;
     }
   }
   public receive(data: any) {
@@ -274,7 +269,17 @@ export class coordinateChange {
     }
   }
 
-  private shijingSend(data) {}
+  private shijingSend(data) {
+    let str: string = "MULTIPOLYGON(";
+    for (let item of data) {
+      str = str + "((";
+      for (let val of item) {
+        str = str + val[0] + " " + val[1] + ",";
+      }
+      str = str.slice(0, str.length - 1) + ")),";
+    }
+    return str.slice(0, str.length - 1) + ")";
+  }
   private shijingReceive(data: string) {
     let lower = data.toLowerCase();
     if (lower.includes("polygon")) lower = lower.replace("polygon", "");
@@ -289,7 +294,11 @@ export class coordinateChange {
   }
 
   private siweiSend(data) {
-    return [1, 2, 3, 5, 6, 6, 8];
+    const arr = [];
+    for (let item of data) {
+      arr.push([item]);
+    }
+    return arr;
   }
   private siweiReceive(data) {}
 }

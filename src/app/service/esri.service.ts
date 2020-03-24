@@ -26,6 +26,10 @@ export class EsriService {
   TileInfo: any;
   MapImage;
   MapImageLayer;
+  graphicsUtils: any;
+  geodesicUtils: any;
+  units: any;
+  geometryEngine: any;
   public tileInfo: any;
   public heightSimpleFillSymbol: any;
 
@@ -49,7 +53,11 @@ export class EsriService {
       this.WebTiledLayer,
       this.TileInfo,
       this.MapImage,
-      this.MapImageLayer
+      this.MapImageLayer,
+      this.graphicsUtils,
+      this.geodesicUtils,
+      this.units,
+      this.geometryEngine
     ] = await loadModules([
       "esri/map",
       "esri/dijit/Basemap",
@@ -67,7 +75,11 @@ export class EsriService {
       "esri/layers/WebTiledLayer",
       "esri/layers/TileInfo",
       "esri/layers/MapImage",
-      "esri/layers/MapImageLayer"
+      "esri/layers/MapImageLayer",
+      "esri/graphicsUtils",
+      "esri/geometry/geodesicUtils",
+      "esri/units",
+      "esri/geometry/geometryEngine"
     ]);
 
     this.heightSimpleFillSymbol = new this.SimpleFillSymbol(

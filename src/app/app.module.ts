@@ -14,18 +14,12 @@ import { registerLocaleData } from "@angular/common";
 import zh from "@angular/common/locales/zh";
 import { FormsModule } from "@angular/forms";
 import { MapComponent } from "./map/map.component";
-import { DataGetTestComponent } from "./data-get-test/data-get-test.component";
 import { QueryTestComponent } from "./query-test/query-test.component";
 
 import { NzDatePickerModule, NzSliderModule } from "ng-zorro-antd";
 registerLocaleData(zh);
 @NgModule({
-  declarations: [
-    AppComponent,
-    MapComponent,
-    DataGetTestComponent,
-    QueryTestComponent
-  ],
+  declarations: [AppComponent, MapComponent, QueryTestComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
